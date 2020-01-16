@@ -1,0 +1,13 @@
+.Board {
+  td {
+    width: 70px;
+    height: 70px;
+    border: black solid 1px;
+  }
+
+  .Board-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
