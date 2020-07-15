@@ -1,5 +1,5 @@
 export class LetterCalculator {
-  consonants = {
+  allConsonants = {
     b: 3,
     c: 3,
     d: 6,
@@ -23,6 +23,33 @@ export class LetterCalculator {
     z: 2
   }
 
+  easyConsonants = {
+    b: 3,
+    c: 3,
+    d: 6,
+    f: 3,
+    g: 4,
+    h: 3,
+    l: 5,
+    m: 3,
+    n: 8,
+    p: 3,
+    r: 9,
+    s: 6,
+    t: 9,
+    w: 3,
+    y: 3,
+  }
+
+  hardConsonants = {
+    j: 2,
+    k: 2,
+    q: 2,
+    v: 3,
+    x: 2,
+    z: 2
+  }
+
   vowels = {
     a: 13,
     e: 18,
@@ -40,9 +67,8 @@ export class LetterCalculator {
   getListOfLetters(numberOfTiles) {
     const numOfConsonants = this.getNumberOfConsonants(numberOfTiles);
     const numOfVowels = numberOfTiles - numOfConsonants;
-    console.log('numOfCon', numOfConsonants, 'vowels', numOfVowels);
     return [
-      ...this.getLetters(numOfConsonants, {...this.consonants}), 
+      ...this.getLetters(numOfConsonants, {...this.allConsonants}), 
       ...this.getLetters(numOfVowels, {...this.vowels})
     ];
   }
@@ -53,7 +79,7 @@ export class LetterCalculator {
    * @returns {number}
    */
   getNumberOfConsonants(totalTiles) {
-    const maxPercentage = 80;
+    const maxPercentage = 75;
     const minPercentage = 65;
     const randomConsonantPercentage = Math.round(Math.random() * (maxPercentage - minPercentage) + minPercentage);
     return Math.floor(totalTiles * randomConsonantPercentage * 0.01);

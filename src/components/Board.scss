@@ -1,13 +1,83 @@
 .Board {
-  td {
-    width: 70px;
-    height: 70px;
-    border: black solid 1px;
+  
+  table {
+    padding: 20px;
+    border-spacing: 0px;
+    background-image: linear-gradient(to bottom, hotpink, palegoldenrod, lightgreen, aquamarine, lavender);
+    
+    td {
+      width: 45px;
+      height: 45px;
+      border: darkslategray solid 1px;
+    }
   }
-
+  
   .Board-tiles {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
   }
+
+  .Board-headerSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+
+    .Board-menu {
+      display: flex;
+    }
+  
+    .Board-tiles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .Board-trash {
+      font-size: 45px;
+    }
+  }
+
+  .table-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    &--header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 80%;
+    }
+  
+    &--button {
+      height: 50px;
+      width: 150px;
+      background-color: lightpink;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  
+    &--table {
+      margin-top: 15px;
+    }
+  
+    &--validity {
+      height: 40px;
+      width: 500px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &__false {
+        background-color: orange;
+      }
+  
+      &__true {
+        background-color: seagreen;
+      }
+    }
+  
+  }  
 }

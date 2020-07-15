@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import Board from './components/Board';
+import { Game } from './components/Game';
+import 'react-responsive-modal/styles.css';
 
 function App() {
   return (
     <div className="App">
-      <Board></Board>
+      <Game />
     </div>
   );
 }

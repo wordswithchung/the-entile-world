@@ -1,9 +1,21 @@
-.TileComponent {
-  width: 55px;
-  height: 55px;
+.Tile-Component {
+  width: 30px;
+  height: 30px;
   border: black 2px solid;
-  font-size: 50px;
+  font-size: 25px;
   font-weight: bold;
-  background-color: lightgoldenrodyellow;
+  // background-color: lightgray;
   margin: 5px;
+
+  &.vowel {
+    background-color: lightblue;
+  }
+
+  &.hard {
+    background-color: lightpink;
+  }
+
+  &.easy {
+    background-color: lemonchiffon;
+  }
 }

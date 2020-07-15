@@ -1,0 +1,65 @@
+
+.game {
+  display: flex;
+  flex-direction: column;
+
+  #confetti-holder {
+    display: none;
+  }
+
+  #confetti-holder.game-over {
+    position: absolute;
+    display: block;
+  }
+
+  &--header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    &__garbage {
+      font-size: 3rem;
+    }
+  }
+
+  &--header > button, &--header__buttons > button {
+    height: 50px;
+    width: 150px;
+    background-color: lightpink;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &--board__table {
+    min-height: 500px;
+    background-color: black;
+  }
+
+  .game--board--tile {
+    height: 60px;
+    width: 30px;
+    margin: 5px;
+    border: 1px solid black;
+    background-color: #e6ffff;
+    font-size: 2.5rem;
+    font-weight: bolder;
+    font-family: monospace;
+    cursor: default;
+
+    &.has-tile {
+      background-color: #ffffcc;
+    }
+
+    &.has-tile__vowel {
+      background-color: #66ff99;
+    }
+
+    &.has_tile__hard_consonant {
+      background-color: #ff80df;
+    }
+
+    &.currently-selected {
+      box-shadow: inset 0 0px 6px 5px #000;
+    }
+  }
+}
