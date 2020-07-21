@@ -23,8 +23,8 @@ export function getListOfLetters(numberOfTiles, gameLevel = 0) {
   } else if (gameLevel === 3) {
     // hard tame
     return [
-      ...getLetters(numOfConsonants * .6, {...ALL_LETTERS.allConsonants}), 
-      ...getLetters(numOfConsonants * .4, {...ALL_LETTERS.hardConsonants}), 
+      ...getLetters(numOfConsonants * .7, {...ALL_LETTERS.allConsonants}), 
+      ...getLetters(numOfConsonants * .3, {...ALL_LETTERS.hardConsonants}), 
       ...getLetters(numOfVowels, {...ALL_LETTERS.vowels})
     ];  
   }
@@ -36,7 +36,7 @@ export function getListOfLetters(numberOfTiles, gameLevel = 0) {
 
 export function getNumberOfConsonants(totalTiles) {
   const maxPercentage = 75;
-  const minPercentage = 65;
+  const minPercentage = 55;
   const randomConsonantPercentage = Math.round(Math.random() * (maxPercentage - minPercentage) + minPercentage);
   return Math.floor(totalTiles * randomConsonantPercentage * 0.01);
 }

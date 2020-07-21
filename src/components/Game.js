@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getTableWithLetters, getRowColNumbers, getDumpLetterBonus } from '../logic/board';
 import { isBoardValid } from "../logic/wordChecker";
-import ConfettiGenerator from "confetti-js";
-import { Modal } from 'react-responsive-modal';
 import './Game.scss';
-
-const confettiSettings = { 
-  target: 'confetti-holder',
-  size: 1.9,
-  animate: true,
-  props:["circle","square","triangle","line"],
-  clock: "25",
-  rotate: true,
-  max: 200,
-  colors: [[26,4,0],[175,0,42],[0,72,86],[255,126,0],[245,245,245]]
-};
 
 export const Game = () => {
   const isMobile = window.innerWidth < 400;
   const numCol = isMobile ? window.innerWidth / 40 : Math.min(window.innerWidth / 30, 15);
-  const [table, setTable] = useState(getTableWithLetters(15, numCol));
+  const [table, setTable] = useState(getTableWithLetters(15, numCol, 2));
   const [isStartingNewGame, setStartingNewGame] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [confetti, setConfetti] = useState(null);
   const [invalidResult, setInvalidresult] = useState(null);
   // info is an array with the [location, letter]
   const [currentInfo, setCurrentInfo] = useState(null);
-
-  useEffect(() => {
-    setConfetti(new ConfettiGenerator(confettiSettings));
-  }, [])
 
   const newGameClickHandler = (gameLevel) => {
     setTable(getTableWithLetters(15, numCol, gameLevel));
@@ -52,20 +34,10 @@ export const Game = () => {
     const result = isBoardValid(table);
     if (result.isValid) {
       setInvalidresult(null);
-      if (confetti) {
-        confetti.render();
-      }
       setIsGameOver(true);
+      setStartingNewGame(true);
     } else {
       setInvalidresult(result);
-    }
-  }
-
-  const closeModal = () => {
-    setIsGameOver(false);
-    if (confetti) {
-      confetti.clear();
-      setConfetti(new ConfettiGenerator(confettiSettings));
     }
   }
 
@@ -132,19 +104,20 @@ export const Game = () => {
 
   return (
     <div className="game">
-      <canvas id="confetti-holder" className={`${isGameOver && 'game-over'}`}></canvas>
+      <header className="game--name">Entile World</header>
       <header className="game--header">
         {!isStartingNewGame && (
           <div className="game--header__buttons">
-            <button onClick={() => setStartingNewGame(true)}>New Game</button>
+            <button className="secondary" onClick={() => setStartingNewGame(true)}>New Game</button>
             <button onClick={checkBoard}>Check Board</button>
           </div>
         )}
         {isStartingNewGame && (
-          <div className="game--header__buttons">
+          <div className="game--header__buttons new-game">
             <button onClick={() => newGameClickHandler(1)}>Easy</button>
             <button onClick={() => newGameClickHandler(2)}>Medium</button>
             <button onClick={() => newGameClickHandler(3)}>Hard</button>
+            <button className="secondary" onClick={() => setStartingNewGame(false)}>Cancel</button>
           </div>
         )}
         <span 
@@ -164,34 +137,28 @@ export const Game = () => {
         </div>
         )
       }
+      {
+        isGameOver &&  (
+          <div className="game--game-over">
+            Congrats! You won! <span role="img" aria-label="confetti tada emoji">🎉</span>
+          </div>
+        )
+      }
       <table className="game--board__table">
         <tbody>
           {table.map((row, index) => (
-            <tr key={`row-${index}`}>
+            <tr 
+              key={`row-${index}`} 
+              className="game--board__table--row"
+            >
               {columnsContent(index, row, handleTileClick)}
             </tr>
           ))}
         </tbody>
       </table>
-
-      <Modal open={isGameOver} onClose={closeModal} center classNames={{overlay: 'custom-overlay'}}>
-        <h2>Congrats on winning!</h2>
-        <p>Want to start a new game?</p>
-        <div className="game--header__buttons">
-          <button onClick={() => {
-            newGameClickHandler(1);
-            closeModal();
-          }}>Easy</button>
-          <button onClick={() => {
-            newGameClickHandler(2);
-            closeModal();
-          }}>Medium</button>
-          <button onClick={() =>{
-            newGameClickHandler(3);
-            closeModal();
-          }}>Hard</button>
-        </div>
-      </Modal>
+      <footer className="game--footer">
+        Game created by Chung Nguyen in 2020. For feedback or comments, please email first name, last name @gmail :)
+      </footer>
     </div>
   )
 }

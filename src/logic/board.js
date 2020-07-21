@@ -1,7 +1,7 @@
 import { getListOfLetters } from './letters';
 
 export const getTableWithLetters = (numOfRows, numOfCols, difficulty = 0) => {
-  const numOfLetters = difficulty === 1 ? 8 : difficulty === 2 ? 20 : 25;
+  const numOfLetters = difficulty === 1 ? 15 : difficulty === 2 ? 20 : 25;
   const letters = getListOfLetters(numOfLetters, difficulty);
 
   const final = [];

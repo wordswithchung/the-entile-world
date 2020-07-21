@@ -1,65 +1,133 @@
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (min-width: 70em) { @content ; }
+ }
+  @else if $point == laptop {
+    @media (min-width: 64em) { @content ; }
+ }
+   @else if $point == tablet {
+    @media (min-width: 50em) { @content ; }
+ }
+  @else if $point == phablet {
+    @media (min-width: 37.5em)  { @content ; }
+ }
+ @else if $point == mobileonly {
+    @media (max-width: 37.5em)  { @content ; }
+
+ }
+}
 
 .game {
   display: flex;
   flex-direction: column;
 
-  #confetti-holder {
-    display: none;
-  }
-
-  #confetti-holder.game-over {
-    position: absolute;
-    display: block;
+  .game--name {
+    font-family: 'Euphoria Script', cursive;
+    font-size: 50px;
+    font-weight: bolder;
+    color: #ff9f1c;
+    text-shadow: 2px 2px darken($color: #ff9f1c, $amount: 80);
   }
 
   &--header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px;
+
+    @include breakpoint(mobileonly) {
+      padding: 5px;
+    }
 
     &__garbage {
       font-size: 3rem;
+
+      @include breakpoint(mobileonly) {
+        font-size: 2rem;
+      }
     }
   }
 
   &--header > button, &--header__buttons > button {
     height: 50px;
     width: 150px;
-    background-color: lightpink;
+    background-color: #2ec4b6;
     font-size: 1rem;
     font-weight: bold;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px grey;
+
+    @include breakpoint(mobileonly) {
+      height: 30px;
+      width: 45px;
+      font-size: 10px;
+    }
+
+    &.secondary {
+      border-color: #2ec4b6;
+      background-color: #f7ede2;
+    }
+  }
+
+  &--invalid-result {
+    font-size: 1.5em;
+    font-family: 'Zilla Slab', serif;
+    color: #d34e24;
+    margin-bottom: 15px;
+  }
+
+  &--game-over {
+    background-color: #f7ede2;
+    height: 30px;
+    font-size: 1.5rem;
+    font-family: 'Zilla Slab', serif;
+    color: #29a8af;
+    padding: 20px;
   }
 
   &--board__table {
+    margin: 15px;
     min-height: 500px;
-    background-color: black;
+    background-color: #ff9f1c;
   }
 
   .game--board--tile {
     height: 60px;
     width: 30px;
     margin: 5px;
-    border: 1px solid black;
-    background-color: #e6ffff;
+    border: 1px solid #ff9f1c;
+    background-color: #ffbf69;
     font-size: 2.5rem;
     font-weight: bolder;
     font-family: monospace;
     cursor: default;
 
+    @include breakpoint(mobileonly) {
+      height: 40px;
+    }
+
     &.has-tile {
-      background-color: #ffffcc;
+      background-color: #83c5be;
     }
 
     &.has-tile__vowel {
-      background-color: #66ff99;
+      background-color: #f7ede2;
     }
 
     &.has_tile__hard_consonant {
-      background-color: #ff80df;
+      background-color: #d34e24;
     }
 
     &.currently-selected {
       box-shadow: inset 0 0px 6px 5px #000;
     }
+  }
+
+  &--footer {
+    font-family: 'Zilla Slab', serif;
+    margin: 30px;
+    font-size: 15px;
   }
 }
