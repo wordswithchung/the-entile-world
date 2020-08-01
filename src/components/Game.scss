@@ -87,6 +87,11 @@
     padding: 20px;
   }
 
+  &--confetti {
+    display: flex;
+    justify-content: center;
+  }
+
   &--board__table {
     margin: 15px;
     min-height: 500px;

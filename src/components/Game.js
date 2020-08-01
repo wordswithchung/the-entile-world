@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
 import { getTableWithLetters, getRowColNumbers, getDumpLetterBonus } from '../logic/board';
 import { isBoardValid } from "../logic/wordChecker";
+import Confetti from 'react-dom-confetti';
 import './Game.scss';
+
+const config = {
+  angle: "151",
+  spread: "360",
+  startVelocity: "27",
+  elementCount: "152",
+  dragFriction: "0.05",
+  duration: "8140",
+  stagger: "6",
+  width: "23px",
+  height: "10px",
+  perspective: "982px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
 
 export const Game = () => {
   const isMobile = window.innerWidth < 400;
@@ -104,12 +119,14 @@ export const Game = () => {
 
   return (
     <div className="game">
-      <header className="game--name">Entile World</header>
+      <header className="game--name">
+        Entile World
+      </header>
       <header className="game--header">
         {!isStartingNewGame && (
           <div className="game--header__buttons">
             <button className="secondary" onClick={() => setStartingNewGame(true)}>New Game</button>
-            <button onClick={checkBoard}>Check Board</button>
+            <button id="checkboard-button" onClick={checkBoard}>Check Board</button>
           </div>
         )}
         {isStartingNewGame && (
@@ -144,6 +161,9 @@ export const Game = () => {
           </div>
         )
       }
+      <div className="game--confetti">
+        <Confetti active={isGameOver} config={config} />
+      </div>
       <table className="game--board__table">
         <tbody>
           {table.map((row, index) => (

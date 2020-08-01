@@ -23,3 +23,4 @@ To play, go to https://wordswithchung.github.io/the-entile-world/
 * Fonts from [Google](https://fonts.google.com/)
   * [Zilla Slab](https://fonts.google.com/specimen/Zilla+Slab)
   * [Euphoria Script](https://fonts.google.com/specimen/Euphoria+Script)
+* [Confetti](https://github.com/daniel-lundin/react-dom-confetti)
