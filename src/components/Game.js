@@ -5,16 +5,16 @@ import Confetti from 'react-dom-confetti';
 import './Game.scss';
 
 const config = {
-  angle: "151",
-  spread: "360",
-  startVelocity: "27",
-  elementCount: "152",
-  dragFriction: "0.05",
-  duration: "8140",
-  stagger: "6",
-  width: "23px",
+  angle: 90,
+  spread: "86",
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 7500,
+  stagger: 3,
+  width: "10px",
   height: "10px",
-  perspective: "982px",
+  perspective: "515px",
   colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
 };
 
