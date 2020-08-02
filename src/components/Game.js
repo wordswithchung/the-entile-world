@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getTableWithLetters, getRowColNumbers, getDumpLetterBonus } from '../logic/board';
 import { isBoardValid } from "../logic/wordChecker";
+import { CSSTransition } from 'react-transition-group';
 import Confetti from 'react-dom-confetti';
 import './Game.scss';
 
@@ -21,16 +22,20 @@ const config = {
 export const Game = () => {
   const isMobile = window.innerWidth < 400;
   const numCol = isMobile ? window.innerWidth / 40 : Math.min(window.innerWidth / 30, 15);
-  const [table, setTable] = useState(getTableWithLetters(15, numCol, 2));
+  const [table, setTable] = useState(getTableWithLetters(15, numCol, 0));
   const [isStartingNewGame, setStartingNewGame] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isShowingHowToPlay, setShowingHowToPlay] = useState(false);
+  const [currentLevel, setCurrentLevel] = useState(0);
   const [invalidResult, setInvalidresult] = useState(null);
   // info is an array with the [location, letter]
   const [currentInfo, setCurrentInfo] = useState(null);
 
   const newGameClickHandler = (gameLevel) => {
     setTable(getTableWithLetters(15, numCol, gameLevel));
+    setCurrentLevel(gameLevel);
     // reset all the states
+    setShowingHowToPlay(false);
     setStartingNewGame(false);
     setCurrentInfo(null);
     setIsGameOver(false);
@@ -39,7 +44,7 @@ export const Game = () => {
 
   const handleThatTrash = () => {
     if (currentInfo) {
-      const newTable = getDumpLetterBonus(table, currentInfo[0]);
+      const newTable = getDumpLetterBonus(table, currentInfo[0], currentLevel);
       setTable(newTable);
       setCurrentInfo(null);
     }
@@ -108,13 +113,39 @@ export const Game = () => {
         <td
           key={Math.random()}
           id={`${rowNumber}-${columnIndex}`}
-          className={`game--board--tile ${hasTileClass(tile)} ${currentInfo && currentInfo[0] === rowNumber + '-' + columnIndex ? 'currently-selected' : ''}`}
+          className={`game--board--tile game-level-${currentLevel} ${hasTileClass(tile)} ${currentInfo && currentInfo[0] === rowNumber + '-' + columnIndex ? 'currently-selected' : ''}`}
           onClick={handleTileClick}
         >
           {tile}
         </td>
       ))
     )
+  }
+
+  const howToPlayContent = () => {
+    if (isShowingHowToPlay) {
+      return (
+        <span
+          role="img"
+          aria-label="question mark emoji"
+          className="game--header__garbage"
+          onClick={() => setShowingHowToPlay(false)}
+        >
+        ❗
+        </span>
+      )
+    } else {
+      return (
+        <span
+            role="img"
+            aria-label="question mark emoji"
+            className="game--header__garbage"
+            onClick={() => setShowingHowToPlay(true)}
+          >
+          ❓
+        </span>
+      )
+    }
   }
 
   return (
@@ -131,20 +162,23 @@ export const Game = () => {
         )}
         {isStartingNewGame && (
           <div className="game--header__buttons new-game">
-            <button onClick={() => newGameClickHandler(1)}>Easy</button>
-            <button onClick={() => newGameClickHandler(2)}>Medium</button>
-            <button onClick={() => newGameClickHandler(3)}>Hard</button>
+            <button className="level-1" onClick={() => newGameClickHandler(1)}>Easy</button>
+            <button className="level-2" onClick={() => newGameClickHandler(2)}>Medium</button>
+            <button className="level-3" onClick={() => newGameClickHandler(3)}>Hard</button>
             <button className="secondary" onClick={() => setStartingNewGame(false)}>Cancel</button>
           </div>
         )}
-        <span 
-          role="img" 
-          aria-label="wastebasket emoji" 
-          className="game--header__garbage"
-          onClick={handleThatTrash}
-        >
-          🗑️
-        </span>
+        { !isStartingNewGame && (<div>
+          {howToPlayContent()}
+          <span 
+            role="img" 
+            aria-label="wastebasket emoji" 
+            className="game--header__garbage"
+            onClick={handleThatTrash}
+          >
+            🗑️
+          </span>
+        </div>)}
       </header>
       {
         invalidResult && (
@@ -164,7 +198,15 @@ export const Game = () => {
       <div className="game--confetti">
         <Confetti active={isGameOver} config={config} />
       </div>
-      <table className="game--board__table">
+      <CSSTransition
+        in={!isShowingHowToPlay}
+        timeout={300}
+        classNames="table"
+        unmountOnExit
+        onEnter={() => setShowingHowToPlay(false)}
+        onExited={() => setShowingHowToPlay(true)}
+      >
+        <table className="game--board__table">
         <tbody>
           {table.map((row, index) => (
             <tr 
@@ -176,6 +218,37 @@ export const Game = () => {
           ))}
         </tbody>
       </table>
+      </CSSTransition>
+      <CSSTransition
+        in={isShowingHowToPlay}
+        timeout={300}
+        classNames="table"
+        unmountOnExit
+        // onEnter={() => setShowingHowToPlay(false)}
+        // onExited={() => setShowingHowToPlay(true)}
+      >
+        <div className="game--how-to-play">
+          <button 
+            onClick={() => setShowingHowToPlay(false)}
+          >
+            Back to the game
+          </button>
+          <h3>Goal: Move the tiles to create an interconnected board of words</h3>
+          <ol>
+            <li>Click on a tile, then click on an open spot to move it. </li>
+            <li>Continue doing this until you have an interconnected board of words. Move the tiles as many times as you like!</li>
+            <li>When ready, click "Check Board" button to verify.</li>
+            <li>If you're done, start a new game.</li>
+          </ol>
+          <h3>Good to know:</h3>
+          <ul>
+            <li>Get stuck with a tough letter? Click on that tile, and then click on the Garbage bin. 
+              It'll chuck that letter for you. BUT, you will get additional random letter(s) as a result
+              (1 on easy game, 2 on medium, and 3 on hard). </li>
+          </ul>
+      </div>
+      </CSSTransition>
+
       <footer className="game--footer">
         Game created by Chung Nguyen in 2020. For feedback or comments, please email first name, last name @gmail :)
       </footer>

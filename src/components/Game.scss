@@ -17,6 +17,24 @@
  }
 }
 
+.table-enter {
+  opacity: 0;
+  transform: rotate(0.9);
+}
+.table-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.table-exit {
+  opacity: 1;
+}
+.table-exit-active {
+  opacity: 0;
+  transform: rotate(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
 .game {
   display: flex;
   flex-direction: column;
@@ -41,6 +59,7 @@
 
     &__garbage {
       font-size: 3rem;
+      cursor: default;
 
       @include breakpoint(mobileonly) {
         font-size: 2rem;
@@ -58,10 +77,22 @@
     border: none;
     border-radius: 8px;
     box-shadow: 5px 5px 5px grey;
+    
+    &.level-1 {
+      background-color: #6adcd1;
+    }
+
+    &.level-2 {
+      background-color: #ffc370;
+    }
+
+    &.level-3 {
+      background-color: #ef6c7b;
+    }
 
     @include breakpoint(mobileonly) {
       height: 30px;
-      width: 45px;
+      width: 48px;
       font-size: 10px;
     }
 
@@ -95,19 +126,57 @@
   &--board__table {
     margin: 15px;
     min-height: 500px;
-    background-color: #ff9f1c;
+    border: 3px solid #1c1c1c;
+  }
+
+  &--how-to-play {
+    display: flex;
+    flex-direction: column;
+    background: #f7ede2;
+    margin: 15px;
+    border: 3px solid grey;
+    text-align: left;
+    padding: 50px;
+    cursor: pointer;
+
+    button {
+      height: 50px;
+      width: 150px;
+      background-color: #ff9f1c;
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 5px 5px 5px grey;
+    }
   }
 
   .game--board--tile {
     height: 60px;
     width: 30px;
     margin: 5px;
-    border: 1px solid #ff9f1c;
-    background-color: #ffbf69;
+    border: 1px solid #1c1c1c;
+    background-color: #fafaff;
     font-size: 2.5rem;
     font-weight: bolder;
     font-family: monospace;
     cursor: default;
+
+    &.game-level-1 {
+      border: 1px solid #2ec4b6;
+      background-color: #6adcd1;
+    }
+
+    &.game-level-2 {
+      border: 1px solid #ff9f1c;
+      background-color: #ffbf69;
+    }
+
+    &.game-level-3 {
+      border: 1px solid #e71d36;
+      background-color: #ef6c7b;
+    }
 
     @include breakpoint(mobileonly) {
       height: 40px;

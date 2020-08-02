@@ -1,8 +1,22 @@
 import { getListOfLetters } from './letters';
 
+const Greetings = [
+  ["H", "I", "I", "I", "I"],
+  ["H", "E", "L", "L", "O"],
+  ["W", "E", "L", "C", "O", "M", "E"],
+  ["W", "H", "A", "T", "S", "U", "P"]
+]
+
 export const getTableWithLetters = (numOfRows, numOfCols, difficulty = 0) => {
-  const numOfLetters = difficulty === 1 ? 15 : difficulty === 2 ? 20 : 25;
-  const letters = getListOfLetters(numOfLetters, difficulty);
+  let numOfLetters;
+  let letters;
+  if (difficulty === 0) {
+    letters = Greetings[Math.floor(Math.random() * Greetings.length)];
+  } else {
+    numOfLetters = difficulty === 1 ? 15 : difficulty === 2 ? 20 : 25;
+    letters = getListOfLetters(numOfLetters, difficulty);
+  }
+  
 
   const final = [];
   let count = 0;
@@ -21,15 +35,16 @@ export const getTableWithLetters = (numOfRows, numOfCols, difficulty = 0) => {
   return final;
 }
 
+
 export const getRowColNumbers = (locationString) => {
   const [row, col] = locationString.split("-");
   return [parseInt(row), parseInt(col)];
 }
 
-export const getDumpLetterBonus = (table, currentLocation) => {
+export const getDumpLetterBonus = (table, currentLocation, gameLevel) => {
   // get the letters
   // find first empty spaces and place the tiles
-  const letters = getListOfLetters(2);
+  const letters = getListOfLetters(gameLevel);
 
   let newTable = [...table];
   for (const row in newTable) {
