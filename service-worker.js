@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/the-entile-world/precache-manifest.ad12107aa37737993994221815f12f56.js"
+  "/the-entile-world/precache-manifest.bb1475ca3372be7271b10478dba8c101.js"
 );
 
 self.addEventListener('message', (event) => {
